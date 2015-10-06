@@ -4,7 +4,7 @@
 #
 Name     : repoze.who
 Version  : 2.2
-Release  : 11
+Release  : 12
 URL      : https://pypi.python.org/packages/source/r/repoze.who/repoze.who-2.2.tar.gz
 Source0  : https://pypi.python.org/packages/source/r/repoze.who/repoze.who-2.2.tar.gz
 Summary  : repoze.who is an identification and authentication framework for WSGI.

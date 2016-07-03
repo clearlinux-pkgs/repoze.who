@@ -1,4 +1,5 @@
 PKG_NAME := repoze.who
-URL := https://pypi.python.org/packages/source/r/repoze.who/repoze.who-2.2.tar.gz
+URL := http://pypi.debian.net/repoze.who/repoze.who-2.3.tar.gz
+ARCHIVES :=
 
 include ../common/Makefile.common

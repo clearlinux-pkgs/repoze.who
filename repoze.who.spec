@@ -4,14 +4,14 @@
 #
 Name     : repoze.who
 Version  : 2.3
-Release  : 21
+Release  : 22
 URL      : http://pypi.debian.net/repoze.who/repoze.who-2.3.tar.gz
 Source0  : http://pypi.debian.net/repoze.who/repoze.who-2.3.tar.gz
 Summary  : repoze.who is an identification and authentication framework for WSGI.
 Group    : Development/Tools
 License  : ZPL-2.1
 Requires: repoze.who-python
-BuildRequires : WebOb-python
+BuildRequires : WebOb
 BuildRequires : pbr
 BuildRequires : pip
 BuildRequires : pluggy
@@ -22,7 +22,7 @@ BuildRequires : python3-dev
 BuildRequires : setuptools
 BuildRequires : tox
 BuildRequires : virtualenv
-BuildRequires : zope.interface-python
+BuildRequires : zope.interface
 
 %description
 ``repoze.who``
@@ -33,8 +33,6 @@ BuildRequires : zope.interface-python
 %package python
 Summary: python components for the repoze.who package.
 Group: Default
-Requires: WebOb-python
-Requires: zope.interface-python
 
 %description python
 python components for the repoze.who package.
@@ -45,6 +43,7 @@ python components for the repoze.who package.
 
 %build
 export LANG=C
+export SOURCE_DATE_EPOCH=1484571544
 python2 setup.py build -b py2
 python3 setup.py build -b py3
 
@@ -54,9 +53,10 @@ export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 PYTHONPATH=%{buildroot}/usr/lib/python2.7/site-packages python2 setup.py test
 %install
+export SOURCE_DATE_EPOCH=1484571544
 rm -rf %{buildroot}
-python2 -tt setup.py build -b py2 install --root=%{buildroot}
-python3 -tt setup.py build -b py3 install --root=%{buildroot}
+python2 -tt setup.py build -b py2 install --root=%{buildroot} --force
+python3 -tt setup.py build -b py3 install --root=%{buildroot} --force
 
 %files
 %defattr(-,root,root,-)

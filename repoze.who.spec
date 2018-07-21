@@ -6,13 +6,15 @@
 #
 Name     : repoze.who
 Version  : 2.3
-Release  : 26
+Release  : 27
 URL      : http://pypi.debian.net/repoze.who/repoze.who-2.3.tar.gz
 Source0  : http://pypi.debian.net/repoze.who/repoze.who-2.3.tar.gz
 Source99 : http://pypi.debian.net/repoze.who/repoze.who-2.3.tar.gz.asc
 Summary  : repoze.who is an identification and authentication framework for WSGI.
 Group    : Development/Tools
 License  : ZPL-2.1
+Requires: repoze.who-python3
+Requires: repoze.who-license
 Requires: repoze.who-python
 Requires: Sphinx
 Requires: WebOb
@@ -21,12 +23,12 @@ Requires: nose
 Requires: setuptools
 Requires: zope.interface
 BuildRequires : WebOb
+BuildRequires : buildreq-distutils3
 BuildRequires : pbr
 BuildRequires : pip
 BuildRequires : pluggy
 BuildRequires : py-python
 BuildRequires : pytest
-BuildRequires : python-dev
 BuildRequires : python3-dev
 BuildRequires : setuptools
 BuildRequires : tox
@@ -36,12 +38,30 @@ BuildRequires : zope.interface
 %description
 ==============
 
+%package license
+Summary: license components for the repoze.who package.
+Group: Default
+
+%description license
+license components for the repoze.who package.
+
+
 %package python
 Summary: python components for the repoze.who package.
 Group: Default
+Requires: repoze.who-python3
 
 %description python
 python components for the repoze.who package.
+
+
+%package python3
+Summary: python3 components for the repoze.who package.
+Group: Default
+Requires: python3-core
+
+%description python3
+python3 components for the repoze.who package.
 
 
 %prep
@@ -52,20 +72,19 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1503078109
-python2 setup.py build -b py2
+export SOURCE_DATE_EPOCH=1532204774
 python3 setup.py build -b py3
 
 %check
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-PYTHONPATH=%{buildroot}/usr/lib/python3.6/site-packages python3 setup.py test
+PYTHONPATH=%{buildroot}/usr/lib/python3.7/site-packages python3 setup.py test
 %install
-export SOURCE_DATE_EPOCH=1503078109
 rm -rf %{buildroot}
-python2 -tt setup.py build -b py2 install --root=%{buildroot} --force
-python3 -tt setup.py build -b py3 install --root=%{buildroot} --force
+mkdir -p %{buildroot}/usr/share/doc/repoze.who
+cp LICENSE.txt %{buildroot}/usr/share/doc/repoze.who/LICENSE.txt
+python3 -tt setup.py build -b py3 install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
 echo ----[ mark ]----
@@ -73,7 +92,13 @@ echo ----[ mark ]----
 %files
 %defattr(-,root,root,-)
 
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/repoze.who/LICENSE.txt
+
 %files python
 %defattr(-,root,root,-)
-/usr/lib/python2*/*
+
+%files python3
+%defattr(-,root,root,-)
 /usr/lib/python3*/*
